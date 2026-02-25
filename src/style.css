@@ -1,0 +1,122 @@
+#app {
+  height: 100%;
+  background-color: #f0f0f0;
+}
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: #eee;
+  font-family:
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: #000; /* Customize button color */
+  background-color: rgba(255, 255, 255, 0.5); /* Add a background */
+  border-radius: 50%; /* Make buttons round */
+  padding: 10px;
+}
+
+ion-input input:-webkit-autofill,
+ion-input input:-webkit-autofill:hover,
+ion-input input:-webkit-autofill:focus,
+ion-input input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #f0f0f0 inset !important;
+  box-shadow: 0 0 0 1000px #f0f0f0 inset !important;
+  -webkit-text-fill-color: #000 !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Outer IonItem reset */
+ion-item.info-item {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
+  --min-height: auto;
+}
+
+/* Card container */
+.info-item-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: #a9cbea; /* soft blue like image */
+  border-radius: 14px;
+  padding: 14px;
+
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+}
+
+/* Icon bubble */
+.info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-icon ion-icon {
+  font-size: 18px;
+  color: #5f7fa3;
+}
+
+/* Text */
+.info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #6f8fb2;
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+

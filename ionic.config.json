@@ -1,0 +1,15 @@
+{
+  "name": "Test",
+  "integrations": {
+    "capacitor": {}
+  },
+  
+    "proxies": [
+      {
+        "path": "/api",
+        "proxyUrl": "http://localhost:8080/"
+      }
+    ],
+  "type": "react",
+  "id": "49e27a35"
+}
