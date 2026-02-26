@@ -187,31 +187,55 @@ const Tracking = () => {
               <div className="bg-white rounded-lg shadow-md p-8">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-6">Tracking History</h3>
                 
-                <div className="space-y-6">
-                  {trackingData.updates.map((update: any, index: number) => (
-                    <div key={index} className="flex gap-6">
-                      <div className="flex flex-col items-center">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${
-                          index === 0 ? 'bg-green-500' : 'bg-blue-500'
-                        }`}>
-                          <CheckIcon />
-                        </div>
-                        {index < trackingData.updates.length - 1 && (
-                          <div className="w-0.5 h-16 bg-gray-300 mt-2"></div>
-                        )}
-                      </div>
-                      <div className="flex-1 pb-4">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <p className="font-semibold text-lg text-gray-900">{update.status}</p>
-                            <p className="text-gray-600 mt-1">{update.description}</p>
-                            <p className="text-sm text-gray-500 mt-2">{update.location}</p>
+                <div className="relative">
+                  {/* Vertical line */}
+                  <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gray-300"></div>
+                  
+                  <div className="space-y-8">
+                    {trackingData.updates.map((update: any, index: number) => (
+                      <div key={index} className="relative flex gap-6">
+                        {/* Icon */}
+                        <div className="relative z-10 flex-shrink-0">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white shadow-lg ${
+                            index === 0 ? 'bg-green-500' : 'bg-blue-600'
+                          }`}>
+                            <CheckIcon />
                           </div>
-                          <p className="text-sm text-gray-500 whitespace-nowrap ml-4">{update.date}</p>
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="flex-1 bg-gray-50 rounded-lg p-5 shadow-sm hover:shadow-md transition">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-2">
+                                <h4 className="text-lg font-bold text-gray-900">{update.status}</h4>
+                                {index === 0 && (
+                                  <span className="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">
+                                    Latest
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-gray-700 mb-3">{update.description}</p>
+                              <div className="flex items-center gap-4 text-sm text-gray-500">
+                                <div className="flex items-center gap-1">
+                                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                                  </svg>
+                                  <span>{update.location}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
+                                  </svg>
+                                  <span>{update.date}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
 
