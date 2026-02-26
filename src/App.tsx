@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect }  from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { SplashScreen } from '@capacitor/splash-screen';
+import { Capacitor } from '@capacitor/core';
 
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
@@ -35,8 +35,10 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   useEffect(() => {
     const initApp = async () => {
-      // Hide splash screen after app is ready
-      await SplashScreen.hide();
+      if (Capacitor.isNativePlatform()) {
+        const { SplashScreen } = await import('@capacitor/splash-screen');
+        await SplashScreen.hide();
+      }
     };
     
     initApp();
