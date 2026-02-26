@@ -15,7 +15,13 @@ const AdminTracking = () => {
     currentLocation: "",
     weight: "",
     service: "Priority Mail",
-    updates: [{ date: "", location: "", status: "", description: "" }]
+    updates: [
+      { date: "", location: "", status: "", description: "" },
+      { date: "", location: "", status: "", description: "" },
+      { date: "", location: "", status: "", description: "" },
+      { date: "", location: "", status: "", description: "" },
+      { date: "", location: "", status: "", description: "" }
+    ]
   });
 
   useEffect(() => {
@@ -30,6 +36,12 @@ const AdminTracking = () => {
   if (!authorized) {
     return null;
   }
+
+  const generateTrackingNumber = () => {
+    const prefix = "9400";
+    const randomDigits = Math.floor(Math.random() * 1000000000000000000).toString().padStart(18, '0');
+    setFormData({ ...formData, trackingNumber: prefix + randomDigits });
+  };
 
   const handleAddUpdate = () => {
     setFormData({
@@ -99,16 +111,25 @@ const AdminTracking = () => {
 
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-8 space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
-            <div>
+            <div className="md:col-span-2">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Tracking Number *</label>
-              <input
-                type="text"
-                required
-                value={formData.trackingNumber}
-                onChange={(e) => setFormData({ ...formData, trackingNumber: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg py-3 px-4"
-                placeholder="9400123456789012345678"
-              />
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  required
+                  value={formData.trackingNumber}
+                  onChange={(e) => setFormData({ ...formData, trackingNumber: e.target.value })}
+                  className="flex-1 border border-gray-300 rounded-lg py-3 px-4"
+                  placeholder="9400123456789012345678"
+                />
+                <button
+                  type="button"
+                  onClick={generateTrackingNumber}
+                  className="bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-600"
+                >
+                  Generate
+                </button>
+              </div>
             </div>
 
             <div>
