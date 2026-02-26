@@ -276,6 +276,7 @@ const Landing = () => {
                 <li><button onClick={() => router.push("/contact", "forward")} className="hover:text-white">Contact Us</button></li>
                 <li><a href="#" className="hover:text-white">FAQs</a></li>
                 <li><a href="#" className="hover:text-white">Report Scam</a></li>
+                <li><button onClick={() => router.push("/admin", "forward")} className="hover:text-white">Admin</button></li>
               </ul>
             </div>
           </div>
