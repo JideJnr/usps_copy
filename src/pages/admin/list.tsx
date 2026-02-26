@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { useIonRouter } from "@ionic/react";
 import WhitePageLayout from "../../components/layout/WhitePageLayout";
 import { IonSpinner } from "@ionic/react";
+import { adminAPI } from "../../services/api";
 
 const AdminList = () => {
   const router = useIonRouter();
   const [authorized, setAuthorized] = useState(false);
   const [trackingList, setTrackingList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
@@ -21,15 +23,15 @@ const AdminList = () => {
 
   const loadTrackingList = async () => {
     try {
-      // TODO: Replace with API call
-      const data = JSON.parse(localStorage.getItem("trackingData") || "{}");
-      const list = Object.keys(data).map(key => ({
-        trackingNumber: key,
-        ...data[key]
-      }));
-      setTrackingList(list);
-    } catch (err) {
+      const response = await adminAPI.getAllTracking();
+      if (response.success) {
+        setTrackingList(response.data || []);
+      } else {
+        setError(response.message || "Failed to load tracking data");
+      }
+    } catch (err: any) {
       console.error(err);
+      setError(err.response?.data?.message || "Failed to load tracking data");
     } finally {
       setLoading(false);
     }

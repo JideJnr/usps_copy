@@ -90,12 +90,15 @@ const Tracking = () => {
     setError("");
     
     try {
-      const response = await trackingAPI.track(trackNum);
-      if (response.data.success) {
-        setTrackingData(response.data.data);
+      const response = await trackingAPI.searchTracking(trackNum);
+      if (response.success && response.data) {
+        setTrackingData(response.data);
+      } else {
+        setError(response.message || "Tracking number not found");
       }
-    } catch (err) {
-      setError("Failed to fetch tracking information. Please try again.");
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.message || "Failed to fetch tracking information. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useIonRouter } from "@ionic/react";
 import WhitePageLayout from "../../components/layout/WhitePageLayout";
 import { IonSpinner } from "@ionic/react";
+import { adminAPI } from "../../services/api";
 
 const AdminTracking = () => {
   const router = useIonRouter();
@@ -69,22 +70,24 @@ const AdminTracking = () => {
     setSuccess("");
 
     try {
-      const existingData = JSON.parse(localStorage.getItem("trackingData") || "{}");
-      existingData[formData.trackingNumber] = formData;
-      localStorage.setItem("trackingData", JSON.stringify(existingData));
-
-      setSuccess(`Tracking ${formData.trackingNumber} created successfully!`);
-      setFormData({
-        trackingNumber: "",
-        status: "In Transit",
-        estimatedDelivery: "",
-        currentLocation: "",
-        weight: "",
-        service: "Priority Mail",
-        updates: [{ date: "", location: "", status: "", description: "" }]
-      });
-    } catch (err) {
-      alert("Failed to create tracking");
+      const response = await adminAPI.createTracking(formData);
+      if (response.success) {
+        setSuccess(`Tracking ${formData.trackingNumber} created successfully!`);
+        setFormData({
+          trackingNumber: "",
+          status: "In Transit",
+          estimatedDelivery: "",
+          currentLocation: "",
+          weight: "",
+          service: "Priority Mail",
+          updates: [{ date: "", location: "", status: "", description: "" }]
+        });
+      } else {
+        alert(response.message || "Failed to create tracking");
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert(err.response?.data?.message || "Failed to create tracking");
     } finally {
       setLoading(false);
     }

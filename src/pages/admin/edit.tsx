@@ -3,6 +3,7 @@ import { useIonRouter } from "@ionic/react";
 import { useParams } from "react-router-dom";
 import WhitePageLayout from "../../components/layout/WhitePageLayout";
 import { IonSpinner } from "@ionic/react";
+import { adminAPI } from "../../services/api";
 
 const AdminEdit = () => {
   const router = useIonRouter();
@@ -30,10 +31,14 @@ const AdminEdit = () => {
     }
   }, [trackingNumber]);
 
-  const loadTracking = () => {
-    const data = JSON.parse(localStorage.getItem("trackingData") || "{}");
-    if (data[trackingNumber]) {
-      setFormData({ trackingNumber, ...data[trackingNumber] });
+  const loadTracking = async () => {
+    try {
+      const response = await adminAPI.getTracking(trackingNumber);
+      if (response.success && response.data) {
+        setFormData({ trackingNumber, ...response.data });
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -63,13 +68,15 @@ const AdminEdit = () => {
     setSuccess("");
 
     try {
-      const existingData = JSON.parse(localStorage.getItem("trackingData") || "{}");
-      existingData[trackingNumber] = formData;
-      localStorage.setItem("trackingData", JSON.stringify(existingData));
-
-      setSuccess("Tracking updated successfully!");
-    } catch (err) {
-      alert("Failed to update tracking");
+      const response = await adminAPI.updateTracking(trackingNumber, formData);
+      if (response.success) {
+        setSuccess("Tracking updated successfully!");
+      } else {
+        alert(response.message || "Failed to update tracking");
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert(err.response?.data?.message || "Failed to update tracking");
     } finally {
       setLoading(false);
     }
