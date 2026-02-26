@@ -7,7 +7,9 @@ import PublicRoute from "./PublicRoute";
 import NotFound from "../pages/NotFound";
 import Landing from "../pages/landing/page";
 import Tracking from "../pages/tracking/page";
+import AdminList from "../pages/admin/list";
 import AdminTracking from "../pages/admin/page";
+import AdminEdit from "../pages/admin/edit";
 import ClickNShip from "../pages/click-n-ship/page";
 import InformedDelivery from "../pages/informed-delivery/page";
 import Stamps from "../pages/stamps/page";
@@ -40,7 +42,9 @@ const Routes: React.FC = () => {
         <Route exact path="/po-boxes" component={withSuspense(POBoxes)} />
         <Route exact path="/help" component={withSuspense(Help)} />
         <Route exact path="/contact" component={withSuspense(Contact)} />
-        <Route exact path="/admin" component={withSuspense(AdminTracking)} />
+        <Route exact path="/admin" component={withSuspense(AdminList)} />
+        <Route exact path="/admin/create" component={withSuspense(AdminTracking)} />
+        <Route exact path="/admin/edit/:trackingNumber" component={withSuspense(AdminEdit)} />
         <Redirect to="/" />
       </Switch>
     </IonRouterOutlet>

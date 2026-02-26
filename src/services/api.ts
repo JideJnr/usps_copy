@@ -60,4 +60,12 @@ export const newsletterAPI = {
     api.post('/newsletter/subscribe', data),
 };
 
+export const adminAPI = {
+  getAllTracking: () => api.get('/admin/tracking'),
+  getTracking: (trackingNumber: string) => api.get(`/admin/tracking/${trackingNumber}`),
+  createTracking: (data: any) => api.post('/admin/tracking', data),
+  updateTracking: (trackingNumber: string, data: any) => api.put(`/admin/tracking/${trackingNumber}`, data),
+  deleteTracking: (trackingNumber: string) => api.delete(`/admin/tracking/${trackingNumber}`),
+};
+
 export default api;
