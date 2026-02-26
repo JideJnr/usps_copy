@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { IonText, useIonRouter, IonSpinner } from "@ionic/react";
 import WhitePageLayout from "../../components/layout/WhitePageLayout";
 import { PrimaryButton } from "../../components/buttons";
+import { trackingAPI } from "../../services/api";
 
 const PackageIcon = () => (
   <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,6 +26,21 @@ const SearchIcon = () => (
 
 const mockTrackingAPI = async (trackingNumber: string) => {
   await new Promise(resolve => setTimeout(resolve, 1500));
+  
+  // Check localStorage first
+  const storedData = localStorage.getItem("trackingData");
+  if (storedData) {
+    const trackingData = JSON.parse(storedData);
+    if (trackingData[trackingNumber]) {
+      return {
+        success: true,
+        data: {
+          number: trackingNumber,
+          ...trackingData[trackingNumber]
+        }
+      };
+    }
+  }
   
   return {
     success: true,
@@ -74,9 +90,9 @@ const Tracking = () => {
     setError("");
     
     try {
-      const response = await mockTrackingAPI(trackNum);
-      if (response.success) {
-        setTrackingData(response.data);
+      const response = await trackingAPI.track(trackNum);
+      if (response.data.success) {
+        setTrackingData(response.data.data);
       }
     } catch (err) {
       setError("Failed to fetch tracking information. Please try again.");

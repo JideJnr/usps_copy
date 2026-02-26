@@ -1,6 +1,7 @@
-import {  useIonRouter } from "@ionic/react";
 import { useState } from "react";
+import { useIonRouter } from "@ionic/react";
 import WhitePageLayout from "../../components/layout/WhitePageLayout";
+import { newsletterAPI } from "../../services/api";
 
 const SearchIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,10 +35,22 @@ const TruckIcon = () => (
 const Landing = () => {
   const router = useIonRouter();
   const [trackingNumber, setTrackingNumber] = useState("");
+  const [newsletterData, setNewsletterData] = useState({ name: "", email: "" });
 
   const handleTrack = () => {
     if (trackingNumber.trim()) {
       router.push(`/tracking?number=${trackingNumber}`, "forward");
+    }
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await newsletterAPI.subscribe(newsletterData);
+      alert("Subscribed successfully!");
+      setNewsletterData({ name: "", email: "" });
+    } catch (err) {
+      alert("Subscription failed. Please try again.");
     }
   };
 
@@ -206,21 +219,27 @@ const Landing = () => {
         <div className="max-w-md mx-auto px-6 text-center space-y-6">
           <h2 className="text-3xl font-bold text-gray-900">Stay Updated</h2>
           <p className="text-gray-600">Subscribe to receive the latest updates and exclusive offers</p>
-          <div className="space-y-3">
+          <form onSubmit={handleNewsletterSubmit} className="space-y-3">
             <input
               type="text"
+              value={newsletterData.name}
+              onChange={(e) => setNewsletterData({ ...newsletterData, name: e.target.value })}
               placeholder="Your Name"
+              required
               className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               type="email"
+              value={newsletterData.email}
+              onChange={(e) => setNewsletterData({ ...newsletterData, email: e.target.value })}
               placeholder="Your Email"
+              required
               className="w-full border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 px-4 rounded-lg font-semibold transition">
+            <button type="submit" className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 px-4 rounded-lg font-semibold transition">
               Subscribe
             </button>
-          </div>
+          </form>
         </div>
       </div>
 
